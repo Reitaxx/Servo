@@ -136,7 +136,6 @@ uint32_t map_position_to_color(uint position)
 int main()
 {
 
-    stdio_init_all(); // Initialize all basic IO functions
     sleep_ms(2000); // Wait for 2 seconds to ensure everything is set up
 
     uint position = 0;
@@ -157,21 +156,16 @@ int main()
     ServoInit(&s1, Servo_Pin, false);
     ServoOn(&s1);
 
-    printf("servo initialized on pin %d\n", Servo_Pin);
-    printf("ws2812 initialized on pin %d\n", WS2812_PIN);
-
     while (true)
     {
         ADC_Var = adc_read();
         position = (ADC_Var * 100) / 4095;
 
-        printf("ADC Value: %d, Position: %d\n", ADC_Var, position);
-
         ServoPosition(&s1, position);
         uint32_t color = map_position_to_color(position);
         put_pixel(ws2812_pio, ws2812_sm, color);
 
-        sleep_ms(500);
+        sleep_ms(20);
     }
 
     return 0;
